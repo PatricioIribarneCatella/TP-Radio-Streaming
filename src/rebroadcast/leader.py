@@ -75,10 +75,9 @@ class LeaderCoordinator(object):
 
         print("node: {} recv LEADER? from {}".format(self.aid, nid))
 
-        mtype = m.LEADER if self.state.leader() else m.NOT_LEADER
-
-        self.connection.send({"mtype": mtype, "node": self.aid},
-                             [nid], "station")
+        if self.state.leader():
+            self.connection.send({"mtype": m.LEADER, "node": self.aid},
+                                 [nid], "station")
 
     def _recovery(self):
 
