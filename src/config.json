@@ -62,6 +62,16 @@
 				}
 			}
 		}
+	},
+	"station": {
+		"ARG": {
+			"1": {
+				"connect": {
+					"ip": "localhost",
+					"port": 7001
+				}
+			}
+		}
 	}
 }
 

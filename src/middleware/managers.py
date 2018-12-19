@@ -38,10 +38,10 @@ class LeaderElection(object):
         interface = None
 
         for rid in receivers:
-            self.anthena.disconnect(interface)
             interface = self.config[node_type][self.country][str(rid)]["connect"]
             self.anthena.connect(interface)
             self.anthena.send(message)
+            self.anthena.disconnect(interface)
 
     def recv(self):
 
