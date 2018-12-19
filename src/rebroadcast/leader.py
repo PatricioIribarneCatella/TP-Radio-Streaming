@@ -77,13 +77,14 @@ class LeaderCoordinator(object):
 
         mtype = m.LEADER if self.state.leader() else m.NOT_LEADER
 
-        self.connection.send({"mtype": mtype, "node": self.aid}, [nid])
+        self.connection.send({"mtype": mtype, "node": self.aid},
+                             [nid], "station")
 
     def _recovery(self):
 
         # Notifies nodes with smaller priority that its alive
         self.connection.send({"mtype": m.ALIVE, "node": self.aid},
-                                self._lesser())
+                                self._lesser(), "anthena")
 
         nextid = self.aid + 1
 

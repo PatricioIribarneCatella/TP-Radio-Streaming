@@ -33,13 +33,13 @@ class LeaderElection(object):
 
         self.monitorc.send(message)
 
-    def send(self, message, receivers):
+    def send(self, message, receivers, node_type):
 
         interface = None
 
         for rid in receivers:
             self.anthena.disconnect(interface)
-            interface = self.config["anthena"][self.country][str(rid)]["connect"]
+            interface = self.config[node_type][self.country][str(rid)]["connect"]
             self.anthena.connect(interface)
             self.anthena.send(message)
 
