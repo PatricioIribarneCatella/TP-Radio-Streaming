@@ -21,13 +21,16 @@ class LeaderElection(object):
         self.monitorc = InterProcess(cons.PUSH)
         self.monitorc.bind("monitor-{}-{}".format(country, aid))
 
+        self.lq = InterNode(cons.REP)
+        self.lq.bind(config["anthena"][country][str(self.aid)]["query-leader"]["bind"])
+
         fd = InterProcess(cons.PULL)
         fd.bind("fail-{}-{}".format(country, aid))
         
         le = InterNode(cons.PULL)
         le.bind(config["anthena"][country][str(self.aid)]["bind"])
 
-        self.poller = Poller([fd, le])
+        self.poller = Poller([fd, le, self.lq])
 
     def monitor(self, message):
 
@@ -37,11 +40,14 @@ class LeaderElection(object):
 
         interface = None
 
-        for rid in receivers:
-            interface = self.config[node_type][self.country][str(rid)]["connect"]
-            self.anthena.connect(interface)
-            self.anthena.send(message)
-            self.anthena.disconnect(interface)
+        if node_type == "station":
+            self.lq.send(message)
+        else:
+            for rid in receivers:
+                interface = self.config[node_type][self.country][str(rid)]["connect"]
+                self.anthena.connect(interface)
+                self.anthena.send(message)
+                self.anthena.disconnect(interface)
 
     def recv(self):
 
@@ -50,7 +56,6 @@ class LeaderElection(object):
         for s, poll_type in socks:
             if poll_type == cons.POLLIN:
                 msg, nid = s.recv()
-                #print("node: {} - recv msg: {}, nid: {}".format(self.aid, msg, nid))
                 yield msg, nid
 
 

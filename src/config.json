@@ -19,6 +19,12 @@
 						"ip": "localhost",
 						"port": 6001
 					}
+				},
+				"query-leader": {
+					"bind": {
+						"ip": "0.0.0.0",
+						"port": 7001
+					}
 				}
 			},
 			"2": {
@@ -38,6 +44,12 @@
 					"connect": {
 						"ip": "localhost",
 						"port": 6002
+					}
+				},
+				"query-leader": {
+					"bind": {
+						"ip": "0.0.0.0",
+						"port": 7002
 					}
 				}
 			},
@@ -59,16 +71,12 @@
 						"ip": "localhost",
 						"port": 6003
 					}
-				}
-			}
-		}
-	},
-	"station": {
-		"ARG": {
-			"1": {
-				"connect": {
-					"ip": "localhost",
-					"port": 7001
+				},
+				"query-leader": {
+					"bind": {
+						"ip": "0.0.0.0",
+						"port": 7003
+					}
 				}
 			}
 		}
